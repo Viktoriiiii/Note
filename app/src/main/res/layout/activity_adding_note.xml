@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:orientation="vertical"
+    tools:context=".AddingNote">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
+        android:background="@color/gray"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageButton
+            android:id="@+id/saveNote"
+            android:layout_width="77dp"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_action_add_save" />
+
+        <ImageButton
+            android:id="@+id/lockNote"
+            android:layout_width="82dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_action_add_lock" />
+    </RelativeLayout>
+
+    <Spinner
+        android:id="@+id/spinnerCategory"
+        android:layout_width="match_parent"
+        android:layout_height="62dp"
+        android:background="@color/gray"
+        android:layout_margin="8dp"
+        />
+
+    <EditText
+        android:id="@+id/editTextTitle"
+        android:layout_width="match_parent"
+        android:layout_height="67dp"
+        android:layout_margin="8dp"
+        android:background="@color/gray"
+        android:hint="Название заметки"
+        android:textColor="@color/dark_for_text"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:autoLink="all"
+        android:lines="20"
+        android:minLines="1"
+        android:gravity="top|left"
+        android:scrollbars="none"
+        android:inputType="textMultiLine|textCapSentences"
+        android:background="@color/gray"
+        android:hint="Текст заметки"
+        android:isScrollContainer="true"
+        android:singleLine="false"
+        android:textColor="@color/dark_for_text"
+        android:textColorHint="@color/dark_gray"
+        android:textSize="20sp"
+        android:textStyle="italic" />
+</LinearLayout>
