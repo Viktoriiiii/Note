@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
     List<Category> categories = new ArrayList<Category>();
     CategoryAdapter categoryAdapter;
     Note selectedNote;
-    EditText userInput ;
     String passwordInput;
     String alertCategory;
     final Context context = this;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
         categoryAdapter = new CategoryAdapter(this,android.R.layout.simple_spinner_dropdown_item,loadCategories());
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategory.setAdapter(categoryAdapter);
-        userInput = findViewById(R.id.inputPassword);
         updateRecycle(notes);
 
         imageButtonAddNote.setOnClickListener(new View.OnClickListener() {
@@ -139,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
                 notesListAdapter.notifyDataSetChanged();
             }
         }
-
         if (requestCode == 102) {
             if (resultCode == Activity.RESULT_OK) {
                 Note newNote = (Note) data.getSerializableExtra("note");
@@ -160,58 +157,61 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
     private final NotesClickListener notesClickListener = new NotesClickListener() {
         @Override
         public void onClick(Note note) {
-
             if (note.getNotePassword() != null && note.getNotePassword() != "" && !note.getNotePassword().isEmpty()) {
-             //   Check(note);
+                Check(note);
+            } else {
+                Intent intent = new Intent(MainActivity.this, AddingNote.class);
+                intent.putExtra("old_note", note);
+                startActivityForResult(intent, 102);
             }
-
-         //  if (passwordInput == note.getNotePassword()){
-             //   Log.v("TAG", " ll");
-            Intent intent = new Intent(MainActivity.this, AddingNote.class);
-            intent.putExtra("old_note", note);
-            startActivityForResult(intent, 102);
-           // } else {return;}
-        }
-
-        private void Check(Note note) {
-            LayoutInflater li = LayoutInflater.from(context);
-            View promptsView = li.inflate(R.layout.alert_for_pass, null);
-            AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
-            mDialogBuilder.setView(promptsView);
-            final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
-            mDialogBuilder
-                    .setTitle("Введите пароль: ")
-                    .setCancelable(false)
-                    .setPositiveButton("OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-                                    passwordInput = userInput.getText().toString();
-                                    //   if (passwordInput.isEmpty() || passwordInput == null || passwordInput == ""){}
-                                    //    else
-                                    //      database.mainDAO().updateNoteInputPassword(note.getNoteID(), passwordInput);
-                                }
-                            })
-                    .setNegativeButton("Отмена",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
-                                    dialog.cancel();
-                                }
-                            });
-            AlertDialog alertDialog = mDialogBuilder.create();
-            alertDialog.show();
-            Log.v("TAG", passwordInput +" l");
-            Log.v("TAG", passwordInput +" l");
-
         }
 
         @Override
         public void onLongClick(Note note, CardView cardView) {
-
             selectedNote = new Note();
             selectedNote = note;
             showPopUp(cardView);
         }
     };
+
+    private void Check(Note note) {
+        LayoutInflater li = LayoutInflater.from(context);
+        View promptsView = li.inflate(R.layout.alert_for_pass, null);
+        AlertDialog.Builder mDialogBuilder = new AlertDialog.Builder(context);
+        mDialogBuilder.setView(promptsView);
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.input_text);
+
+        mDialogBuilder
+                .setTitle("Введите пароль: ")
+                .setCancelable(false)
+                .setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                passwordInput = userInput.getText().toString();
+                                Log.v("TAG", passwordInput +" l");
+                                Log.v("TAG", note.getNotePassword() +" l");
+                                if (passwordInput.equals(note.getNotePassword())) {
+                                    Intent intent = new Intent(MainActivity.this, AddingNote.class);
+                                    intent.putExtra("old_note", note);
+                                    startActivityForResult(intent, 102);
+                                }
+                                else {
+                                    Toast.makeText(context, passwordInput+" l", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        })
+                .setNegativeButton("Отмена",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = mDialogBuilder.create();
+        alertDialog.show();
+
+
+    }
 
     private void showPopUp(CardView cardView) {
         PopupMenu popupMenu = new PopupMenu(this, cardView);

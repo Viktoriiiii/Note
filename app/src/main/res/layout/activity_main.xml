@@ -9,9 +9,9 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="412dp"
-        android:layout_height="70dp"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="69dp"
         android:background="@color/gray"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -30,21 +30,16 @@
         <Spinner
             android:id="@+id/categories"
             android:layout_width="256dp"
+            android:layout_centerInParent="true"
             android:layout_height="match_parent" />
 
         <ImageButton
             android:id="@+id/add_new_note"
             android:layout_width="68dp"
+            android:layout_alignParentEnd="true"
             android:layout_height="match_parent"
             app:srcCompat="@drawable/ic_action_add_note" />
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/inputPassword"
-        android:layout_width="match_parent"
-        android:layout_height="37dp"
-        android:background="@color/light_gray"
-        android:textColor="@color/dark_for_text" />
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_notes_list"

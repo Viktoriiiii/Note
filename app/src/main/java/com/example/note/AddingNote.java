@@ -121,9 +121,7 @@ public class AddingNote extends AppCompatActivity {
                                     new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog,int id) {
                                             password = userInput.getText().toString();
-                                            if (password.isEmpty() || password == null || password == ""){}
-                                            else
-                                                database.mainDAO().updateNotePassword(notes.getNoteID(), password);
+                                            database.mainDAO().updateNotePassword(notes.getNoteID(), password);
                                         }
                                     })
                             .setNegativeButton("Отмена",
